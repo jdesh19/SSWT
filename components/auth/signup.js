@@ -1,10 +1,12 @@
 "use client";
 import { useState } from "react";
 import { signUp } from "@/lib/auth";
+import { updateProfile } from "firebase/auth";
 
 export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
 
   const isValidEmail = (email) => {
@@ -23,13 +25,22 @@ export default function SignupPage() {
       );
     } else {
       try {
-        await signUp(email, password);
+        const userCredential = await signUp(email, password); // Create the user first
+        const user = userCredential.user; // Get the Firebase user object
+
+        await updateProfile(user, {
+          displayName: username
+        })
+
+        console.log("User signed up and Firestore document created.");
         setEmail("");
         setPassword("");
+        setUsername("");
         setErrorMsg("");
         alert("Signup successful!");
       } catch (err) {
-        setErrorMsg(err.message);
+        console.error(err);
+        setErrorMsg(err.message || "Something went wrong");
       }
     }
   };
@@ -37,6 +48,13 @@ export default function SignupPage() {
   return (
     <div className="max-w-md mx-auto mt-10">
       <form onSubmit={handleSignup} className="flex flex-col gap-4">
+        <input
+          className="bg-gray-200 p-2 rounded"
+          type="text"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
+        />
         <input
           className="bg-gray-200 p-2 rounded"
           type="email"
@@ -51,7 +69,10 @@ export default function SignupPage() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Password"
         />
-        <button className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition" type="submit">
+        <button
+          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition"
+          type="submit"
+        >
           Sign Up
         </button>
       </form>
