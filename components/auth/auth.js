@@ -2,7 +2,6 @@
 import { useAuth } from "@/lib/getAuth";
 import { logOut } from "@/lib/auth";
 import AuthNav from "../nav/authNav";
-import CreateWorkout from "../create/createWorkout";
 
 export default function Auth() {
   const { user, loading } = useAuth();
@@ -25,17 +24,14 @@ export default function Auth() {
   return (
     <div className="flex justify-center">
       {user ? (
-        <div className="flex">
-          <p className="">
-            Welcome, {user.displayName}
-            <button
-              onClick={handleLogOut}
-              className="bg-red-500 text-white p-2 rounded hover:bg-red-400"
-            >
-              Log Out
-            </button>
-          </p>
-          <CreateWorkout />
+        <div className="grid my-5">
+          <p className="">Welcome, {user.displayName}</p>
+          <button
+            onClick={handleLogOut}
+            className="bg-red-500 text-white p-2 rounded hover:bg-red-400"
+          >
+            Log Out
+          </button>
         </div>
       ) : (
         <>

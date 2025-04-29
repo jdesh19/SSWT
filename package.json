@@ -12,6 +12,7 @@
     "firebase": "^11.6.1",
     "next": "15.3.1",
     "react": "^19.0.0",
+    "react-day-picker": "^9.6.7",
     "react-dom": "^19.0.0"
   },
   "devDependencies": {

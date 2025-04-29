@@ -1,58 +1,85 @@
 "use client";
 
+import { useState, useEffect } from "react";
+import { format, addDays, subDays } from "date-fns";
 import { auth, db } from "@/lib/firebase";
-import { useAuth } from "@/lib/getAuth";
-import { collection, getDocs } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import {
+  doc,
+  collection,
+  getDoc,
+  setDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 
-export default function GetWorkout() {
-  const [workouts, setWorkouts] = useState([]);
-  const { user, loading } = useAuth();
+export default function OneDaySelector({ onDateSelect }) {
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [canGoBack, setCanGoBack] = useState(false);
+
+  const user = auth.currentUser;
+  const workoutsRef = collection(db, "users", user.uid, "workouts");
+
+  // Format date for Firestore doc naming or filtering
+  const getDateKey = (date) => format(date, "yyyy-MM-dd");
+
+  const checkWorkoutExists = async (date) => {
+    const q = query(workoutsRef, where("date", "==", getDateKey(date)));
+    const snapshot = await getDocs(q);
+    return !snapshot.empty;
+  };
+
+  const createWorkoutIfNeeded = async (date) => {
+    const exists = await checkWorkoutExists(date);
+    if (!exists) {
+      const newWorkoutRef = doc(workoutsRef); // auto-generated ID
+      await setDoc(newWorkoutRef, {
+        date: getDateKey(date),
+        exercises: [],
+        createdAt: new Date(),
+      });
+    }
+  };
+
+  const handlePrev = async () => {
+    const prevDate = subDays(selectedDate, 1);
+    const exists = await checkWorkoutExists(prevDate);
+    if (exists) {
+      setSelectedDate(prevDate);
+      onDateSelect(prevDate);
+    }
+  };
+
+  const handleNext = async () => {
+    const nextDate = addDays(selectedDate, 1);
+    await createWorkoutIfNeeded(nextDate);
+    setSelectedDate(nextDate);
+    onDateSelect(nextDate);
+  };
 
   useEffect(() => {
-    async function fetchWorkouts() {
-      if (!user) {
-        console.log("No user found.");
-        return;
-      }
-
-      const workoutsRef = collection(db, "users", user.uid, "workouts");
-      const snapshot = await getDocs(workoutsRef);
-
-      const workoutsList = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-
-      console.log("Workouts:", workoutsList);
-      setWorkouts(workoutsList);
-    }
-
-    if (!loading && user) {
-      fetchWorkouts();
-    }
-  }, [loading, user]);  // ✅ Start with this always in place
+    const updateCanGoBack = async () => {
+      const prevDate = subDays(selectedDate, 1);
+      const exists = await checkWorkoutExists(prevDate);
+      setCanGoBack(exists);
+    };
+    updateCanGoBack();
+  }, [selectedDate]);
 
   return (
-    <div>
-      <h1>User's Workouts</h1>
-      {loading ? (
-        <p>Loading workouts...</p>
-      ) : workouts.length > 0 ? (
-        <ul className="space-y-2">
-          {workouts.map((workout) => (
-            <li key={workout.id} className="bg-gray-200 p-2 rounded">
-              <strong>{workout.name}</strong>
-              <br />
-              {workout.createdAt?.toDate
-                ? workout.createdAt.toDate().toLocaleString()
-                : "No date"}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No workouts found.</p>
-      )}
-    </div>
+    <>
+      <h1 className="text-xl font-bold mb-2 grid justify-center">Daily Log:</h1>
+      <div className="flex items-center justify-center gap-4">
+        {canGoBack && (
+          <button onClick={handlePrev} className="text-lg font-bold">
+            ⬅️
+          </button>
+        )}
+        <div className="text-md font-medium">{format(selectedDate, "PPP")}</div>
+        <button onClick={handleNext} className="text-lg font-bold">
+          ➡️
+        </button>
+      </div>
+    </>
   );
 }
