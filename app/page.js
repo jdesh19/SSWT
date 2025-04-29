@@ -1,18 +1,21 @@
 import Auth from "@/components/auth/auth";
+import GetWorkout from "@/components/content/workout";
 import Image from "next/image";
 
 export default function Home() {
   return (
     <div>
-      <Auth/>
-      <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="flex justify-center">
         <Image
-          src="/SSWT.png"
+        className="rounded-[30%] "
+          src="/SSWT Logo.png"
           alt="Super Simple Workout Tracker"
-          width={500}
-          height={500}
+          width={200}
+          height={200}
         />
       </div>
+      <Auth/>
+      <GetWorkout/>
     </div>
   );
 }
