@@ -1,15 +1,14 @@
 "use client";
 import Auth from "@/components/auth/auth";
-import OneDaySelector from "@/components/content/workout";
+import LogExercise from "@/components/create/LogExercise";
+import { useAuth } from "@/lib/getAuth";
 import Image from "next/image";
 
 export default function Home() {
-  const handleDateSelect = (date) => {
-    console.log("Selected date:", date);
-  };
+  const { user, loading } = useAuth();
   return (
     <div>
-      <div className="grid justify-center">
+      <div className="grid items-center justify-center">
         <Image
           className="rounded-[30%] "
           src="/SSWT Logo.png"
@@ -18,13 +17,10 @@ export default function Home() {
           height={200}
         />
         <div>
-          <Auth />
+          <Auth user={user} loading={loading} />
         </div>
       </div>
-
-      <div>
-        <OneDaySelector onDateSelect={handleDateSelect} />
-      </div>
+      {user ? <LogExercise user={user} loading={loading} /> : <p></p>}
     </div>
   );
 }

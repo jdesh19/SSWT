@@ -1,10 +1,9 @@
 "use client";
-import { useAuth } from "@/lib/getAuth";
 import { logOut } from "@/lib/auth";
 import AuthNav from "../nav/authNav";
 
-export default function Auth() {
-  const { user, loading } = useAuth();
+export default function Auth({user, loading}) {
+ 
 
   if (loading) {
     return <p>loading...</p>;
