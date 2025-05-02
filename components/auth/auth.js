@@ -4,7 +4,7 @@ import AuthNav from "../nav/authNav";
 
 export default function Auth({user, loading}) {
  
-
+console.log(user)
   if (loading) {
     return <p>loading...</p>;
   }

@@ -1,10 +1,20 @@
 "use client";
 import { db } from "@/lib/firebase";
-import { collection, doc, query, setDoc, getDocs, addDoc, where } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  query,
+  setDoc,
+  getDocs,
+  addDoc,
+  where,
+} from "firebase/firestore";
 import { useState } from "react";
+import LogSet from "./LogSet";
 
 export default function LogExercise({ user, loading }) {
   const [exerciseName, setExerciseName] = useState("");
+  const [exercises, setExercises] = useState([]);
 
   const handleLogExercise = async (e) => {
     e.preventDefault();
@@ -46,42 +56,40 @@ export default function LogExercise({ user, loading }) {
     });
 
     setExerciseName("");
+
+    // Fetch updated exercises list
+    const qSnap = await getDocs(exercisesRef);
+    const exercisesList = qSnap.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setExercises(exercisesList);
   };
 
   return (
-    <form className="p-4" onSubmit={handleLogExercise}>
-      <h2 className="text-lg font-semibold mb-2">Log Exercise</h2>
+    <div>
+      <form className="p-4" onSubmit={handleLogExercise}>
+        <h2 className="text-lg font-semibold mb-2">Log Exercise</h2>
 
-      <input
-        className="border px-2 py-1 w-full mb-2"
-        type="text"
-        placeholder="Exercise name"
-        value={exerciseName}
-        onChange={(e) => setExerciseName(e.target.value)}
-      />
-
-      {/* add sets
-      <div className="flex gap-2 mb-1">
         <input
-          type="number"
-          placeholder="Reps"
-          className="border px-2 py-1 w-1/4"
-        />
-        <input
-          type="number"
-          placeholder="Weight"
-          className="border px-2 py-1 w-1/4"
-        />
-        <input
+          className="border px-2 py-1 w-full mb-2"
           type="text"
-          placeholder="Notes"
-          className="border px-2 py-1 w-1/2"
+          placeholder="Exercise name"
+          value={exerciseName}
+          onChange={(e) => setExerciseName(e.target.value)}
         />
-      </div> */}
-
-      <button className="bg-blue-600 text-white px-4 py-1 mt-2 rounded">
-        Log Exercise
-      </button>
-    </form>
+        <button className="bg-blue-600 text-white px-4 py-1 mt-2 rounded">
+          Log Exercise
+        </button>
+      </form>
+      <div className="mt-6">
+        {exercises.map((ex) => (
+          <div key={ex.id} className="mb-4 border-b pb-2">
+            <p className="text-md font-medium">{ex.name}</p>
+            <LogSet user={user} loading={loading} exerciseId={ex.id} />
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
