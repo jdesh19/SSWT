@@ -9,6 +9,7 @@ import {
   query,
   where,
   getDocs,
+  deleteDoc,
 } from "firebase/firestore";
 
 export default function LogSet({ exerciseId, user }) {
@@ -111,11 +112,35 @@ export default function LogSet({ exerciseId, user }) {
         <div className="mt-4">
           <h4 className="text-sm font-semibold mb-1">Logged Sets:</h4>
           <ul className="text-sm space-y-1">
-            {sets.map((set) => (
-              <li key={set.id}>
-                💪 Reps: {set.reps} 🏋️ Weight: {set.weight} lbs
-              </li>
-            ))}
+          {sets.map((set) => (
+  <li key={set.id} className="flex justify-between items-center">
+    <span>
+      💪 Reps: {set.reps} 🏋️ Weight: {set.weight} lbs
+    </span>
+    <button
+      onClick={async () => {
+        const today = new Date().toISOString().split("T")[0];
+        const workoutsRef = collection(db, "users", user.uid, "workouts");
+        const workoutQuery = query(workoutsRef, where("date", "==", today));
+        const workoutSnap = await getDocs(workoutQuery);
+
+        if (!workoutSnap.empty) {
+          const workoutRef = workoutSnap.docs[0].ref;
+          const setDocRef = doc(
+            collection(doc(collection(workoutRef, "exercises"), exerciseId), "sets"),
+            set.id
+          );
+          await deleteDoc(setDocRef);
+          setSets((prev) => prev.filter((s) => s.id !== set.id));
+        }
+      }}
+      className="text-red-500 text-xs ml-2"
+    >
+      Delete
+    </button>
+  </li>
+))}
+
           </ul>
         </div>
       )}
