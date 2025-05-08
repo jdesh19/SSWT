@@ -9,7 +9,7 @@ run:
     - key: NEXT_PUBLIC_FIREBASE_PROJECT_ID
       value: "sswt-1ca73"
     - key: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
-      value: "sswt-1ca73.firebasestorage.app"
+      value: "sswt-1ca73.appspot.com" 
     - key: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
       value: "387314697085"
     - key: NEXT_PUBLIC_FIREBASE_APP_ID
