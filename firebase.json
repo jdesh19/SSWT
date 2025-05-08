@@ -1,7 +1,9 @@
 {
   "hosting": {
-    "appHosting": {
-      "config": "apphosting.yaml"
+    "site": "SSWT",
+    "app": {
+      "buildCommand": "npm run build",
+      "runCommand": "npm start"
     }
   }
 }
