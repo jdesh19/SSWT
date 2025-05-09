@@ -12,6 +12,7 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import LogSet from "./LogSet";
+import { CiSquareRemove } from "react-icons/ci";
 
 export default function LogExercise({ user, loading }) {
   const [exerciseName, setExerciseName] = useState("");
@@ -87,18 +88,18 @@ export default function LogExercise({ user, loading }) {
   };
 
   return (
-    <div className="p-4">
-      <form onSubmit={handleLogExercise}>
+    <div className="grid justify-center w-screen">
         <h2 className="text-lg font-semibold mb-2">Log Exercise</h2>
+      <form className="flex" onSubmit={handleLogExercise}>
 
         <input
-          className="border px-2 py-1 w-full mb-2"
+          className="border"
           type="text"
           placeholder="Exercise name"
           value={exerciseName}
           onChange={(e) => setExerciseName(e.target.value)}
         />
-        <button className="bg-blue-600 text-white px-4 py-1 mt-2 rounded">
+        <button className="bg-blue-600 text-white p-2 rounded">
           Log Exercise
         </button>
       </form>
@@ -117,7 +118,7 @@ export default function LogExercise({ user, loading }) {
               }}
               className="text-red-600 text-sm"
             >
-              Delete
+              <CiSquareRemove className="text-2xl" />
             </button>
           </div>
           <LogSet user={user} exerciseId={ex.id} />

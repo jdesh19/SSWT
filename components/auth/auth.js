@@ -24,7 +24,7 @@ console.log(user)
     <div className="flex justify-center">
       {user ? (
         <div className="grid my-5">
-          <p className="">Welcome, {user.displayName}</p>
+          <p className=""><span className="text-lg">Welcome</span>, <span className="font-bold">{user.displayName}</span></p>
           <button
             onClick={handleLogOut}
             className="bg-red-500 text-white p-2 rounded hover:bg-red-400"

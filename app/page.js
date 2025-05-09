@@ -1,26 +1,20 @@
 "use client";
 import Auth from "@/components/auth/auth";
 import LogExercise from "@/components/create/LogExercise";
+import AddToMobile from "@/components/nav/AddToMobile";
 import { useAuth } from "@/lib/getAuth";
-import Image from "next/image";
 
 export default function Home() {
   const { user, loading } = useAuth();
   return (
-    <div>
-      <div className="grid items-center justify-center">
-        <Image
-          className="rounded-[30%] "
-          src="/SSWT Logo.png"
-          alt="Super Simple Workout Tracker"
-          width={200}
-          height={200}
-        />
+    <div className="flex justify-center flex-col items-center">
+      <div >
+       <AddToMobile/>
         <div>
           <Auth user={user} loading={loading} />
         </div>
       </div>
-      {user ? <LogExercise user={user} loading={loading} /> : <p></p>}
+      {user ? <LogExercise user={user} loading={loading} /> : <></>}
     </div>
   );
 }

@@ -11,6 +11,7 @@ import {
   getDocs,
   deleteDoc,
 } from "firebase/firestore";
+import { IoIosRemoveCircleOutline } from "react-icons/io";
 
 export default function LogSet({ exerciseId, user }) {
   const [reps, setReps] = useState("");
@@ -136,7 +137,7 @@ export default function LogSet({ exerciseId, user }) {
       }}
       className="text-red-500 text-xs ml-2"
     >
-      Delete
+      <IoIosRemoveCircleOutline className="text-lg"/>
     </button>
   </li>
 ))}
