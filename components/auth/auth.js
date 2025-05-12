@@ -1,8 +1,9 @@
 "use client";
 import { logOut } from "@/lib/auth";
 import AuthNav from "../nav/authNav";
-
+import ImageCarousel from "../ImageCarousel";
 export default function Auth({user, loading}) {
+
  
 console.log(user)
   if (loading) {
@@ -33,9 +34,10 @@ console.log(user)
           </button>
         </div>
       ) : (
-        <>
+        <div className="flex flex-col">
+          <ImageCarousel/>
           <AuthNav />
-        </>
+        </div>
       )}
     </div>
   );
