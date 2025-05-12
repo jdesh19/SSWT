@@ -8,12 +8,11 @@ export default function Home() {
   const { user, loading } = useAuth();
   return (
     <div className="flex justify-center flex-col items-center">
-      <div >
-       <AddToMobile/>
-        <div>
-          <Auth user={user} loading={loading} />
-        </div>
+      <AddToMobile />
+      <div>
+        <Auth user={user} loading={loading} />
       </div>
+
       {user ? <LogExercise user={user} loading={loading} /> : <></>}
     </div>
   );
