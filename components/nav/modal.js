@@ -1,3 +1,4 @@
+import { IoClose } from "react-icons/io5";
 
 export default function Modal({ isOpen, onClose, children }) {
   if (!isOpen) return null;
@@ -7,9 +8,9 @@ export default function Modal({ isOpen, onClose, children }) {
       <div className="bg-white rounded-lg p-6 w-full max-w-md relative border-2 border-gray-600">
         <button
           onClick={onClose}
-          className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+          className="absolute text-2xl top-2 right-2 text-grey-500 hover:text-gray-800"
         >
-          ✖
+          <IoClose/>
         </button>
         {children}
       </div>

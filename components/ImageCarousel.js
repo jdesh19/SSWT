@@ -11,28 +11,43 @@ import "swiper/css/scrollbar";
 
 export default function ImageCarousel() {
   return (
-    <div className="w-full max-w-3xs my-5">
+    <div className="bg-black w-[320px] h-[320px]">
       <Swiper
-  modules={[ Pagination, Scrollbar, A11y]}
-  spaceBetween={50}
-  slidesPerView={1}
-  pagination={{ clickable: true }}
-  onSwiper={(swiper) => console.log(swiper)}
-  onSlideChange={() => console.log("slide change")}
->
-  {[...Array(4)].map((_, i) => (
-    <SwiperSlide key={i}>
-      <Image
-        alt="sswt"
-        src="/SSWT.png"
-        width={200}
-        height={100}
-        style={{ width: "100%", height: "auto" }}
-      />
-    </SwiperSlide>
-  ))}
-</Swiper>
-
+        modules={[Pagination, Scrollbar, A11y]}
+        spaceBetween={15}
+        slidesPerView={1}
+        pagination={{ clickable: true }}
+        onSwiper={(swiper) => console.log(swiper)}
+        onSlideChange={() => console.log("slide change")}
+      >
+        <SwiperSlide>
+          <Image
+            alt="sswt"
+            src="/carousel/manBenching.png"
+            width={200}
+            height={100}
+            style={{ width: "100%", height: "auto" }}
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <Image
+            alt="sswt"
+            src="/carousel/barbellSquat.png"
+            width={200}
+            height={100}
+            style={{ width: "100%", height: "auto" }}
+          />
+        </SwiperSlide>
+        <SwiperSlide>
+          <Image
+            alt="sswt"
+            src="/carousel/curls.png"
+            width={200}
+            height={100}
+            style={{ width: "100%", height: "auto" }}
+          />
+        </SwiperSlide>
+      </Swiper>
     </div>
   );
 }

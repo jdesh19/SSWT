@@ -21,7 +21,7 @@ export default function AuthNav() {
   };
 
   return (
-    <div className="p-10">
+    <div className="flex justify-center p-5">
       <button onClick={openSignIn} className="bg-blue-500 text-white p-2 rounded m-2">
         Sign In
       </button>
