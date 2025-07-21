@@ -88,42 +88,63 @@ export default function LogExercise({ user, loading }) {
   };
 
   return (
-    <div className="grid justify-center w-screen">
-        <h2 className="text-lg font-semibold mb-2">Log Exercise</h2>
-      <form className="flex" onSubmit={handleLogExercise}>
+    <div className="w-full max-w-4xl mx-auto space-y-6">
+      <div className="text-center">
+        <h2 className="text-2xl font-bold text-light mb-6">Today's Workout</h2>
+      </div>
+      
+      <div className="glass-card p-6">
+        <h3 className="text-lg font-semibold text-light mb-4">Add Exercise</h3>
+        <form className="flex gap-3" onSubmit={handleLogExercise}>
+          <input
+            className="input-glass flex-1 px-4 py-3 rounded-lg placeholder-white/60"
+            type="text"
+            placeholder="Exercise name (e.g., Bench Press, Squats)"
+            value={exerciseName}
+            onChange={(e) => setExerciseName(e.target.value)}
+            required
+          />
+          <button 
+            type="submit"
+            className="btn-primary px-6 py-3 rounded-lg font-semibold whitespace-nowrap"
+          >
+            Add Exercise
+          </button>
+        </form>
+      </div>
 
-        <input
-          className="border"
-          type="text"
-          placeholder="Exercise name"
-          value={exerciseName}
-          onChange={(e) => setExerciseName(e.target.value)}
-        />
-        <button className="bg-blue-600 text-white p-2 rounded">
-          Log Exercise
-        </button>
-      </form>
-
-      {exercises.map((ex) => (
-        <div key={ex.id} className="mb-4 border-b pb-2">
-          <div className="flex justify-between items-center">
-            <p className="text-md font-medium">{ex.name}</p>
-            <button
-              onClick={async () => {
-                if (workoutDocRef) {
-                  const exerciseRef = doc(workoutDocRef, "exercises", ex.id);
-                  await deleteDoc(exerciseRef);
-                  setExercises((prev) => prev.filter((e) => e.id !== ex.id));
-                }
-              }}
-              className="text-red-600 text-sm"
-            >
-              <CiSquareRemove className="text-2xl" />
-            </button>
-          </div>
-          <LogSet user={user} exerciseId={ex.id} />
+      {exercises.length > 0 && (
+        <div className="space-y-4">
+          <h3 className="text-xl font-semibold text-light text-center">Your Exercises</h3>
+          {exercises.map((ex) => (
+            <div key={ex.id} className="glass-card p-6">
+              <div className="flex justify-between items-center mb-4">
+                <h4 className="text-lg font-semibold text-light">{ex.name}</h4>
+                <button
+                  onClick={async () => {
+                    if (workoutDocRef) {
+                      const exerciseRef = doc(workoutDocRef, "exercises", ex.id);
+                      await deleteDoc(exerciseRef);
+                      setExercises((prev) => prev.filter((e) => e.id !== ex.id));
+                    }
+                  }}
+                  className="text-red-400 hover:text-red-300 transition-colors duration-200"
+                  title="Remove exercise"
+                >
+                  <CiSquareRemove className="text-2xl" />
+                </button>
+              </div>
+              <LogSet user={user} exerciseId={ex.id} />
+            </div>
+          ))}
         </div>
-      ))}
+      )}
+      
+      {exercises.length === 0 && (
+        <div className="text-center py-8">
+          <p className="text-light-secondary text-lg">No exercises added yet. Start by adding your first exercise above!</p>
+        </div>
+      )}
     </div>
   );
 }

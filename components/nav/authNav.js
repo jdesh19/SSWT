@@ -21,11 +21,17 @@ export default function AuthNav() {
   };
 
   return (
-    <div className="flex justify-center p-5">
-      <button onClick={openSignIn} className="bg-blue-500 text-white p-2 rounded m-2">
+    <div className="flex justify-center gap-4 p-6">
+      <button 
+        onClick={openSignIn} 
+        className="btn-primary px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105"
+      >
         Sign In
       </button>
-      <button onClick={openSignUp} className="bg-green-500 text-white p-2 rounded m-2">
+      <button 
+        onClick={openSignUp} 
+        className="btn-secondary px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105"
+      >
         Sign Up
       </button>
 

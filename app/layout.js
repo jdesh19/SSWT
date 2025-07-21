@@ -14,8 +14,10 @@ export default function RootLayout({ children }) {
         <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
       </Head>
-      <body className="bg-blue-300">
-        {children}
+      <body className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+        <div className="min-h-screen bg-gradient-to-br from-blue-50/10 via-white/5 to-purple-50/10">
+          {children}
+        </div>
       </body>
     </html>
   );
