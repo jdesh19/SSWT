@@ -21,7 +21,7 @@ export default function AuthNav() {
   };
 
   return (
-    <div className="flex justify-center gap-4 p-6">
+    <div className="flex justify-center gap-4 p-6 ">
       <button 
         onClick={openSignIn} 
         className="btn-primary px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105"

@@ -41,7 +41,7 @@ export default function SignInPage() {
         />
         <button
           type="submit"
-          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition"
+          className="btn-primary px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105"
         >
           Sign In
         </button>

@@ -70,7 +70,7 @@ export default function SignupPage() {
           placeholder="Password"
         />
         <button
-          className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition"
+          className="btn-secondary px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105"
           type="submit"
         >
           Sign Up

@@ -95,7 +95,7 @@ export default function LogExercise({ user, loading }) {
       
       <div className="glass-card p-6">
         <h3 className="text-lg font-semibold text-light mb-4">Add Exercise</h3>
-        <form className="flex gap-3" onSubmit={handleLogExercise}>
+        <form className="flex flex-col sm:flex-row items-stretch gap-2 p-4 rounded-2xl bg-gradient-to-r " onSubmit={handleLogExercise}>
           <input
             className="input-glass flex-1 px-4 py-3 rounded-lg placeholder-white/60"
             type="text"
@@ -106,7 +106,7 @@ export default function LogExercise({ user, loading }) {
           />
           <button 
             type="submit"
-            className="btn-primary px-6 py-3 rounded-lg font-semibold whitespace-nowrap"
+            className="px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-purple-500 text-white font-medium hover:opacity-90 transition"
           >
             Add Exercise
           </button>
